@@ -4,14 +4,17 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Home</h1>
-    {% if (user) %}
-        <p>Welcome, {{username}}! You are logged in. </p>
-        <a href="/logout">Logout</a>
+    <h1>Welcome to the ShareBuddy</h1>
+    
+    {% if username %}
+        <p>Welcome, {{ username }}! You are logged in.</p>
+        <form method="POST" action="/logout" style="display:inline;">
+            <button type="submit">Logout</button>
+        </form>
     {% else %}
-        <p>Welcome, guest! Please <a href="/login">login</a> or <a href="/register">register</a>.</p>
+        <p>You are not logged in.</p>
+        <a href="/login"><button>Login</button></a>
+        <a href="/register"><button>Register</button></a>
     {% endif %}
-
 </body>
-
 </html>

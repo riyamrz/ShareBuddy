@@ -13,8 +13,13 @@ mysql = MySQL(app)  # Initialize MySQL
 
 @app.route('/')
 def home():
+    # Debugging line
+    print(f"Session data: {session}")  
     if 'username' in session:
-        return render_template('home.html', username=session['username'])
+        username = session['username']
+        # Debugging line
+        print(f"Logged in as: {username}")  
+        return render_template('home.html', username=username)
     else:
         return render_template('home.html')
 
@@ -22,7 +27,7 @@ def home():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        pwd = request.form['password']
+        password = request.form['password']
         
         # Open a new cursor to execute the query
         cur = mysql.connection.cursor()
@@ -31,11 +36,11 @@ def login():
         cur.close()
 
         # Check if the user exists and the password matches
-        if user and pwd == user[1]:  # Adjust index based on your table structure
+        if user and password == user[3]:  # Adjust index based on your table structure
             session['username'] = user[0]  # Store the username in the session
             return redirect(url_for('home'))
-        else:
-            return render_template('login.html', error='Invalid username or password')
+        
+        return render_template('login.html', error='Invalid username or password')
     else:
         return render_template('login.html')
 
@@ -43,12 +48,11 @@ def login():
 def register():
     if request.method == 'POST':
         username = request.form['username']
-        pwd = request.form['password']
+        password = request.form['password']
 
         # Open a new cursor to execute the query
         cur = mysql.connection.cursor()
-        # Use parameterized queries to prevent SQL injection
-        cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, pwd))
+        cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
         mysql.connection.commit()
         cur.close()
 
@@ -56,7 +60,7 @@ def register():
     else:
         return render_template('register.html')
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     session.pop('username', None)  # Remove 'username' from the session
     return redirect(url_for('home'))

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)  # Create a Flask app
-app.secret_key = 'your_secret_key'  # Set a secret key for the session
+app.secret_key = 'Gqrek7GREOk9Yu'  # Set a secret key for the session
 
 # Configure MySQL
 app.config['MYSQL_HOST'] = 'localhost'
@@ -66,4 +66,4 @@ def logout():
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0",debug=True)

@@ -76,5 +76,38 @@ def logout():
     session.pop('username', None)  # Remove 'username' from the session
     return redirect(url_for('home'))
 
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    username = session['username']
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    username = session['username']
+    if request.method == 'POST':
+        bio = request.form['bio']
+        
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            UPDATE users
+            SET bio = %s
+            WHERE username = %s
+        """, (bio, username))
+        mysql.connection.commit()
+        cur.close()
+
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        SELECT username, email, faculty, contact, semester, bio
+        FROM users
+        WHERE username = %s
+    """, [username])
+    user = cur.fetchone()
+    cur.close()
+
+    return render_template('profile.html', user=user)
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

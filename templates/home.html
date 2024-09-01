@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 </head>
 <body>
-    <h1>Welcome to the ShareBuddy</h1>
+    <h1>Welcome to ShareBuddy</h1>
     
     {% if username %}
-        <p>Welcome, {{ username }}! You are logged in.</p>
-        <form method="POST" action="/logout" style="display:inline;">
+        <p>Hello, {{ username }}!</p>
+        <a href="{{ url_for('profile') }}">View Profile</a><br>
+        <form method="POST" action="{{ url_for('logout') }}">
             <button type="submit">Logout</button>
         </form>
     {% else %}
-        <p>You are not logged in.</p>
-        <a href="/login"><button>Login</button></a>
-        <a href="/register"><button>Register</button></a>
+        <p>Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a>.</p>
     {% endif %}
 </body>
 </html>

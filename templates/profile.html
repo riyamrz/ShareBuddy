@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>User Profile</h2>
+    
+    <p><strong>Username:</strong> {{ user[0] }}</p>
+    <p><strong>Email:</strong> {{ user[1] }}</p>
+    <p><strong>Faculty:</strong> {{ user[2] }}</p>
+    <p><strong>Contact:</strong> {{ user[3] }}</p>
+    <p><strong>Semester:</strong> {{ user[4] }}</p>
+    <p><strong>Bio:</strong> {{ user[5] }}</p>
+    
+    <h3>Edit Bio</h3>
+    <form method="POST" action="{{ url_for('profile') }}">
+        <textarea name="bio" rows="4" cols="50">{{ user[6] }}</textarea><br>
+        <button type="submit">Save Bio</button>
+    </form>
+    
+    <a href="{{ url_for('home') }}">Back to Home</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>

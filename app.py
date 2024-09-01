@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,12 +19,8 @@ mysql = MySQL(app)  # Initialize MySQL
 
 @app.route('/')
 def home():
-    # Debugging line
-    print(f"Session data: {session}")  
     if 'username' in session:
         username = session['username']
-        # Debugging line
-        print(f"Logged in as: {username}")  
         return render_template('home.html', username=username)
     else:
         return render_template('home.html')
@@ -31,18 +28,18 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        login_input = request.form['login_input']
         password = request.form['password']
         
         # Open a new cursor to execute the query
         cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM users WHERE username = %s", [username])
+        cur.execute("SELECT * FROM users WHERE username = %s OR email = %s", (login_input, login_input))
         user = cur.fetchone()
         cur.close()
 
         # Check if the user exists and the password matches
-        if user and password == user[3]:  # Adjust index based on your table structure
-            session['username'] = user[0]  # Store the username in the session
+        if user and check_password_hash(user[3], password):  # Adjust index based on your table structure
+            session['username'] = user[1]  # Assuming username is at index 1
             return redirect(url_for('home'))
         
         return render_template('login.html', error='Invalid username or password')
@@ -53,11 +50,20 @@ def login():
 def register():
     if request.method == 'POST':
         username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
+        faculty = request.form['faculty']
+        contact = request.form['contact']
+        semester = request.form['semester']
+        
+        hashed_password = generate_password_hash(password)
 
         # Open a new cursor to execute the query
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+        cur.execute("""
+            INSERT INTO users (username, email, password, faculty, contact, semester)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (username, email, hashed_password, faculty, contact, semester))
         mysql.connection.commit()
         cur.close()
 

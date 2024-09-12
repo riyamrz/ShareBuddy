@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+</head>
+<body>
+    <h1>Update User</h1>
+    <form method="POST" action="{{ url_for('admin.update_user', user_id=user[0]) }}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="{{ user[1] }}" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ user[2] }}" required>
+        <br>
+        <label for="faculty">Faculty:</label>
+        <input type="text" id="faculty" name="faculty" value="{{ user[5] }}" required>
+        <br>
+        <label for="contact">Contact:</label>
+        <input type="text" id="contact" name="contact" value="{{ user[4] }}" required>
+        <br>
+        <label for="semester">Semester:</label>
+        <input type="text" id="semester" name="semester" value="{{ user[6] }}" required>
+        <br>
+        <input type="hidden" id="role" name="role" value="{{ user[7] }}">
+        <button type="submit" {% if user[7] == 'admin' %}disabled{% endif %}>Update</button> 
+    </form>
+</body>
+</html>

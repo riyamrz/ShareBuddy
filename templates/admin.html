@@ -8,6 +8,6 @@
 <body>
     <h1>Welcome, {{ username }}!</h1>
     <h2>Admin Dashboard</h2>
-    <!-- Add your admin functionalities here -->
+    <button onclick="window.location.href='{{ url_for('admin.manage_users') }}'">Manage Users</button>
 </body>
 </html>

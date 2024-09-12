@@ -44,7 +44,6 @@ def login():
         # Check if the user exists and the password matches
         if user and check_password_hash(user[3], password):  # Adjust index based on your table structure
             session['username'] = user[1]  # Assuming username is at index 1
-            session['is_admin'] = user[8]  # Assuming is_admin is the 8th column
             return redirect(url_for('home'))
         
         return render_template('login.html', error='Invalid username or password')

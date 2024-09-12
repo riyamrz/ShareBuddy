@@ -1,0 +1,12 @@
+<!-- admin_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ username }}</h1>
+    <a href="{{ url_for('admin.manage_users') }}">Manage Users</a>
+</body>
+</html>

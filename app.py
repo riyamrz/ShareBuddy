@@ -3,6 +3,7 @@ from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
+from admin import admin_bp
 
 # Load environment variables from .env file
 load_dotenv()
@@ -16,6 +17,9 @@ app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
 app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
 app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
 mysql = MySQL(app)  # Initialize MySQL
+
+# Register the admin blueprint
+app.register_blueprint(admin_bp)
 
 @app.route('/')
 def home():
@@ -40,6 +44,7 @@ def login():
         # Check if the user exists and the password matches
         if user and check_password_hash(user[3], password):  # Adjust index based on your table structure
             session['username'] = user[1]  # Assuming username is at index 1
+            session['is_admin'] = user[8]  # Assuming is_admin is the 8th column
             return redirect(url_for('home'))
         
         return render_template('login.html', error='Invalid username or password')

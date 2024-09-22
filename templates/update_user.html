@@ -3,28 +3,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update User</title>
 </head>
-<body>
-    <h1>Update User</h1>
-    <form method="POST" action="{{ url_for('admin.update_user') }}">
-        <input type="hidden" name="id" value="{{ user[0] }}">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" value="{{ user[1] }}" required>
-        <br><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="{{ user[2] }}" required>
-        <br><br>
-        <label for="faculty">Faculty:</label>
-        <input type="text" id="faculty" name="faculty" value="{{ user[4] }}" required>
-        <br><br>
-        <label for="contact">Contact:</label>
-        <input type="text" id="contact" name="contact" value="{{ user[5] }}" required>
-        <br><br>
-        <label for="semester">Semester:</label>
-        <input type="number" id="semester" name="semester" value="{{ user[6] }}" required>
-        <br><br>
-        <button type="submit">Update</button>
-    </form>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;">
+    <h1 style="color: #333;">Update User</h1>
+    <div style="background-color: #fff; padding: 20px; margin: 20px auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 300px; text-align: left;">
+        <form method="POST" action="{{ url_for('admin.update_user') }}">
+            <input type="hidden" name="id" value="{{ user[0] }}">
+            
+            <label for="username" style="display: block; margin-bottom: 10px;">Username:</label>
+            <input type="text" id="username" name="username" value="{{ user[1] }}" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <label for="email" style="display: block; margin-bottom: 10px;">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user[2] }}" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <label for="faculty" style="display: block; margin-bottom: 10px;">Faculty:</label>
+            <input type="text" id="faculty" name="faculty" value="{{ user[4] }}" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <label for="contact" style="display: block; margin-bottom: 10px;">Contact:</label>
+            <input type="text" id="contact" name="contact" value="{{ user[5] }}" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <label for="semester" style="display: block; margin-bottom: 10px;">Semester:</label>
+            <input type="number" id="semester" name="semester" value="{{ user[6] }}" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Update</button>
+        </form>
+    </div>
 </body>
 </html>

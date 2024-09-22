@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
-<body>
-    <h1>Login</h1>
-    <form action="/login" method="post">
-        <label for="login_input">Username or Email:</label>
-        <input type="text" id="login_input" name="login_input" required>
-        <br> <br>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;">
+    <div style="background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); display: inline-block; text-align: left;">
+        <h1 style="color: #333; text-align: center;">Login</h1>
+        <form action="/login" method="post" style="text-align: center;">
+            <label for="login_input" style="display: block; margin: 10px 0;">Username or Email:</label>
+            <input type="text" id="login_input" name="login_input" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <label for="password" style="display: block; margin: 10px 0;">Password:</label>
+            <input type="password" id="password" name="password" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <button type="submit" style="padding: 10px 20px; border: none; border-radius: 4px; background-color: #007bff; color: #fff; cursor: pointer; margin-top: 10px;">Login</button>
+        </form>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br> <br>
-        
-        <button type="submit">Login</button>
-    </form>
-
-    {% if error %}
-    <p>{{ error }}</p>
-    {% endif %}
+        {% if error %}
+        <p style="color: red; margin-top: 10px;">{{ error }}</p>
+        {% endif %}
+    </div>
 </body>
 </html>

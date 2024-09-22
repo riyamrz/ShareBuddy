@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Materials</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;">
+    <h1 style="color: #333;">Browse Materials</h1>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+        {% for material in materials %}
+            <div style="background-color: #fff; padding: 20px; margin: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 250px; text-align: left;">
+                <h3 style="color: #007bff;">{{ material[0] }}</h3>
+                <img src="{{ url_for('static', filename=material[1]) }}" alt="{{ material[0] }}" width="200" style="border-radius: 4px;">
+                <p>{{ material[2] }}</p>
+                <p><strong>Price:</strong> ${{ material[3] }}</p>
+                <p><strong>Uploaded by:</strong> <a href="{{ url_for('view_profile', id=material[4]) }}" style="color: #007bff; text-decoration: none;">{{ material[5] }}</a></p>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{{ url_for('home') }}" style="display: block; margin: 20px 0; color: #007bff; text-decoration: none;">Back to Home</a>
+</body>
+</html>

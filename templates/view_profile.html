@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user[0] }}'s Profile</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;">
+    <h1 style="color: #333;">{{ user[0] }}'s Profile</h1>
+    <div style="background-color: #fff; padding: 20px; margin: 20px auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 300px; text-align: left;">
+        <p><strong>Email:</strong> {{ user[1] }}</p>
+        <p><strong>Faculty:</strong> {{ user[2] }}</p>
+        <p><strong>Contact:</strong> {{ user[3] }}</p>
+        <p><strong>Semester:</strong> {{ user[4] }}</p>
+        <p><strong>Bio:</strong> {{ user[5] }}</p>
+    </div>
+    <a href="{{ url_for('home') }}" style="display: block; margin: 20px 0; color: #007bff; text-decoration: none;">Back to Home</a>
+</body>
+</html>

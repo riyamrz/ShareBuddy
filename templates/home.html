@@ -5,17 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 </head>
-<body>
-    <h1>Welcome to ShareBuddy</h1>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;">
+    <h1 style="color: #333;">Welcome to ShareBuddy</h1>
     
     {% if username %}
         <p>Hello, {{ username }}!</p>
-        <a href="{{ url_for('profile') }}">View Profile</a><br>
-        <form method="POST" action="{{ url_for('logout') }}">
-            <button type="submit">Logout</button>
-        </form>
+        <a href="{{ url_for('profile') }}" style="display: block; margin: 10px 0; color: #007bff; text-decoration: none;">View Profile</a>
+        <a href="{{ url_for('upload.upload') }}" style="display: block; margin: 10px 0;"><button style="padding: 10px 20px; border: none; border-radius: 4px; background-color: #007bff; color: #fff; cursor: pointer;">Upload Materials</button></a>
+        <a href="{{ url_for('my_materials') }}" style="display: block; margin: 10px 0;"><button style="padding: 10px 20px; border: none; border-radius: 4px; background-color: #007bff; color: #fff; cursor: pointer;">View My Materials</button></a>
     {% else %}
-        <p>Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a>.</p>
+        <p>Please <a href="{{ url_for('login') }}" style="color: #007bff; text-decoration: none;">login</a> or <a href="{{ url_for('register') }}" style="color: #007bff; text-decoration: none;">register</a>.</p>
+    {% endif %}
+
+    <a href="{{ url_for('browse_materials') }}" style="display: block; margin: 10px 0;"><button style="padding: 10px 20px; border: none; border-radius: 4px; background-color: #007bff; color: #fff; cursor: pointer;">Browse Materials</button></a>
+
+    {% if username %}
+        <form method="POST" action="{{ url_for('logout') }}" style="margin-top: 20px;">
+            <button type="submit" style="padding: 10px 20px; border: none; border-radius: 4px; background-color: #dc3545; color: #fff; cursor: pointer;">Logout</button>
+        </form>
     {% endif %}
 </body>
 </html>

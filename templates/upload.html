@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Materials</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+    <div style="background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 300px;">
+        <h1 style="text-align: center; margin-bottom: 20px;">Upload Materials</h1>
+        <form action="{{ url_for('upload.upload') }}" method="post" enctype="multipart/form-data">
+            <input type="text" name="material_title" placeholder="Material Title" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;">
+            <textarea name="description" placeholder="Description" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+            <input type="number" name="pricing" placeholder="Pricing" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;">
+            <input type="file" name="photo" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;">
+            <button type="submit" style="width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 4px; background-color: #28a745; color: #fff; cursor: pointer;">Upload</button>
+        </form>
+    </div>
+</body>
+</html>

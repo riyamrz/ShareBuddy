@@ -82,3 +82,55 @@ def update_user():
             return render_template('update_user.html', user=user)
     else:
         return redirect(url_for('admin.admin_login'))
+
+
+# Routes for managing materials
+@admin_bp.route('/admin/manage_materials')
+def manage_materials():
+    if 'admin_username' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM materials")
+        materials = cursor.fetchall()
+        cursor.close()
+        return render_template('manage_materials.html', materials=materials)
+    else:
+        return redirect(url_for('admin.admin_login'))
+
+@admin_bp.route('/delete_material', methods=['POST'])
+def delete_material():
+    if 'admin_username' in session:
+        material_id = request.form['id']
+        cursor = mysql.connection.cursor()
+        cursor.execute("DELETE FROM materials WHERE id = %s", (material_id,))
+        mysql.connection.commit()
+        cursor.close()
+        return redirect(url_for('admin.manage_materials'))
+    else:
+        return redirect(url_for('admin.admin_login'))
+
+@admin_bp.route('/update_material', methods=['GET', 'POST'])
+def update_material():
+    if 'admin_username' in session:
+        if request.method == 'POST':
+            material_id = request.form['id']
+            title = request.form['title']
+            description = request.form['description']
+            pricing = request.form['pricing']
+            cursor = mysql.connection.cursor()
+            cursor.execute("""
+                UPDATE materials
+                SET material_title = %s, description = %s, pricing = %s
+                WHERE id = %s
+            """, (title, description, pricing, material_id))
+            mysql.connection.commit()
+            cursor.close()
+            return redirect(url_for('admin.manage_materials'))
+        else:
+            material_id = request.args.get('id')
+            cursor = mysql.connection.cursor()
+            cursor.execute("SELECT * FROM materials WHERE id = %s", (material_id,))
+            material = cursor.fetchone()
+            cursor.close()
+            return render_template('update_material.html', material=material)
+    else:
+        return redirect(url_for('admin.admin_login'))

@@ -1,0 +1,28 @@
+<!-- update_material.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Material</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;">
+    <h1 style="color: #333;">Update Material</h1>
+    <div style="background-color: #fff; padding: 20px; margin: 20px auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 300px; text-align: left;">
+        <form method="POST" action="{{ url_for('admin.update_material') }}">
+            <input type="hidden" name="id" value="{{ material[0] }}">
+            
+            <label for="title" style="display: block; margin-bottom: 10px;">Title:</label>
+            <input type="text" id="title" name="title" value="{{ material[1] }}" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <label for="description" style="display: block; margin-bottom: 10px;">Description:</label>
+            <input type="text" id="description" name="description" value="{{ material[2] }}" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <label for="pricing" style="display: block; margin-bottom: 10px;">Pricing:</label>
+            <input type="number" id="pricing" name="pricing" value="{{ material[3] }}" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Update</button>
+        </form>
+    </div>
+</body>
+</html>

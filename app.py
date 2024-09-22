@@ -281,10 +281,13 @@ def browse_materials():
     cur.execute("""
         SELECT m.material_title, m.photo_path, m.description, m.pricing, u.id, u.username 
         FROM materials m 
-        JOIN users u ON m.id = u.id
+        JOIN users u ON m.user_id = u.id
     """)
     materials = cur.fetchall()
     cur.close()
+
+    # Debugging: Print the fetched materials
+    print("Browse Materials:", materials)
 
     return render_template('browse.html', materials=materials)
 
@@ -298,10 +301,13 @@ def my_materials():
     cur.execute("""
         SELECT material_title, photo_path, description, pricing 
         FROM materials 
-        WHERE id = (SELECT id FROM users WHERE username = %s LIMIT 1)
+        WHERE user_id = (SELECT id FROM users WHERE username = %s)
     """, (username,))
     materials = cur.fetchall()
     cur.close()
+
+    # Debugging: Print the fetched materials
+    print("My Materials:", materials)
 
     return render_template('my_materials.html', materials=materials)
 

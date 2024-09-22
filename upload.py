@@ -11,24 +11,25 @@ def create_upload_bp(mysql):
             return redirect(url_for('login'))
 
         if request.method == 'POST':
-            title = request.form['title']
+            title = request.form['material_title']
             description = request.form['description']
             pricing = request.form['pricing']
-            file = request.files['file']
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('static/uploads', filename))
+            file = request.files['photo_path']
+            if file:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join('static/uploads', filename))
 
-            user_id = session['id']  # Get the user ID from the session
+                user_id = session['id']  # Get the user ID from the session
 
-            cur = mysql.connection.cursor()
-            cur.execute("""
-                INSERT INTO materials (material_title, photo_path, description, pricing, user_id)
-                VALUES (%s, %s, %s, %s, %s)
-            """, (title, filename, description, pricing, user_id))
-            mysql.connection.commit()
-            cur.close()
+                cur = mysql.connection.cursor()
+                cur.execute("""
+                    INSERT INTO materials (material_title, photo_path, description, pricing, user_id)
+                    VALUES (%s, %s, %s, %s, %s)
+                """, (title, filename, description, pricing, user_id))
+                mysql.connection.commit()
+                cur.close()
 
-            return redirect(url_for('my_materials'))
+                return redirect(url_for('my_materials'))
 
         return render_template('upload.html')
 

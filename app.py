@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
+from flask_mail import Mail, Message
 from dotenv import load_dotenv
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -19,11 +20,21 @@ app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
 app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
 mysql = MySQL(app)  # Initialize MySQL
 
+# Configure Flask-Mail
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
+
+mail = Mail(app)  # Initialize Flask-Mail
+
 # Register the blueprints
 app.register_blueprint(admin_bp)
 upload_bp = create_upload_bp(mysql)  # Create the upload blueprint
 app.register_blueprint(upload_bp)  # Register the upload blueprint
-
 
 @app.route('/')
 def home():
@@ -56,6 +67,16 @@ def login():
         if user and check_password_hash(user[3], password):  # Adjust index based on your table structure
             session['username'] = user[1]  # Assuming username is at index 1
             session['id'] = user[0]  # Assuming id is at index 0
+            
+            # Send login email
+            msg = Message(
+                'Login Notification',
+                sender=app.config['MAIL_DEFAULT_SENDER'],
+                recipients=[user[2]],  # Assuming email is at index 2
+                body='You have just logged in to ShareBuddy.'
+            )
+            mail.send(msg)
+            
             return redirect(url_for('home'))
         
         return render_template('login.html', error='Invalid username or password')
@@ -82,6 +103,14 @@ def register():
         """, (username, email, hashed_password, faculty, contact, semester))
         mysql.connection.commit()
         cur.close()
+
+        # Send registration email
+        msg = Message(
+            'Welcome to ShareBuddy',
+            recipients=[email],
+            body='Thank you for registering with ShareBuddy!'
+        )
+        mail.send(msg)
 
         return redirect(url_for('login'))
     else:
@@ -172,4 +201,3 @@ def view_profile(id):
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
-

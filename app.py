@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_mysqldb import MySQL
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
@@ -33,8 +33,7 @@ mail = Mail(app)  # Initialize Flask-Mail
 
 # Register the blueprints
 app.register_blueprint(admin_bp)
-upload_bp = create_upload_bp(mysql)  # Create the upload blueprint
-app.register_blueprint(upload_bp)  # Register the upload blueprint
+app.register_blueprint(create_upload_bp(mysql, mail))
 
 @app.route('/')
 def home():
@@ -111,6 +110,9 @@ def register():
             body='Thank you for registering with ShareBuddy!'
         )
         mail.send(msg)
+
+        # Flash success message
+        flash('You have successfully registered', 'success')
 
         return redirect(url_for('login'))
     else:

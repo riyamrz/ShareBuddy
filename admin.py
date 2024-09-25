@@ -1,10 +1,14 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request
 from flask_mysqldb import MySQL
+from flask_mail import Mail, Message
 
 admin_bp = Blueprint('admin', __name__)
 
 # Initialize MySQL
 mysql = MySQL()
+
+# Initialize Flask-Mail
+mail = Mail()
 
 @admin_bp.route('/admin', methods=['GET', 'POST'])
 def admin_login():
@@ -16,6 +20,12 @@ def admin_login():
         admin = cursor.fetchone()
         if admin and admin[3] == password:  # Assuming the password is in the 4th column
             session['admin_username'] = admin[1]
+            
+            # Send email notification
+            msg = Message('Admin Login Notification', recipients=[admin[2]])  # Assuming the email is in the 3rd column
+            msg.body = f"Admin {admin[1]} has logged in."
+            mail.send(msg)
+            
             return redirect(url_for('admin.admin_dashboard'))
         else:
             return "Invalid credentials"
